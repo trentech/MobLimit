@@ -1,4 +1,4 @@
-package com.gmail.trentech.MobLimit;
+package com.gmail.trentech.moblimit;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -13,7 +13,7 @@ import org.spongepowered.api.plugin.PluginContainer;
 import me.flibio.updatifier.Updatifier;
 
 @Updatifier(repoName = "MobLimit", repoOwner = "TrenTech", version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, authors = Resource.AUTHOR, url = Resource.URL, description = Resource.DESCRIPTION, dependencies = {@Dependency(id = "Updatifier", optional = true)})
+@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = {@Dependency(id = "Updatifier", optional = true)})
 public class Main {
 
 	private static Game game;
@@ -30,6 +30,7 @@ public class Main {
 	@Listener
     public void onInitializationEvent(GameInitializationEvent event) {
 		getGame().getEventManager().registerListeners(this, new EventManager());
+		log.info("VERSION: " + Resource.VERSION);
 	}
 
 	public static Game getGame() {

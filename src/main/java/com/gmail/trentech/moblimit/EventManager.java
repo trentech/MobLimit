@@ -1,4 +1,4 @@
-package com.gmail.trentech.MobLimit;
+package com.gmail.trentech.moblimit;
 
 import java.util.function.Predicate;
 
@@ -12,7 +12,7 @@ import org.spongepowered.api.event.world.LoadWorldEvent;
 import org.spongepowered.api.world.World;
 
 public class EventManager {
-	
+
 	@Listener
     public void onSpawnEntityEvent(SpawnEntityEvent event) {
 		World world = event.getTargetWorld();

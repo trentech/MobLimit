@@ -1,4 +1,4 @@
-package com.gmail.trentech.MobLimit;
+package com.gmail.trentech.moblimit;
 
 import java.io.File;
 import java.io.IOException;
