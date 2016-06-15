@@ -7,6 +7,7 @@ import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Living;
 
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -60,13 +61,26 @@ public class ConfigManager {
 	}
 	
 	public void init() {
-		for(EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
-			if(Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))){
-				if(config.getNode("mobs", entityType.getId()).isVirtual()){
-					config.getNode("mobs", entityType.getId(), "amount").setValue(40);
+		if(file.getName().equals("global.conf")) {
+			for(EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
+				if(Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))){
+					if(config.getNode("mobs", entityType.getId()).isVirtual()){
+						config.getNode("mobs", entityType.getId(), "amount").setValue(40);
+					}
+				}
+			}
+		}else {
+			ConfigurationNode config = new ConfigManager("global").getConfig();
+			
+			for(EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
+				if(Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))){
+					if(config.getNode("mobs", entityType.getId()).isVirtual()){
+						config.getNode("mobs", entityType.getId(), "amount").setValue(config.getNode("mobs", entityType.getId(), "amount").getDouble());
+					}
 				}
 			}
 		}
+
 		save();
 	}
 	
