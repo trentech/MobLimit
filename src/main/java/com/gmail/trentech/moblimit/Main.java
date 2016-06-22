@@ -14,25 +14,25 @@ import org.spongepowered.api.plugin.PluginContainer;
 import me.flibio.updatifier.Updatifier;
 
 @Updatifier(repoName = "MobLimit", repoOwner = "TrenTech", version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = {@Dependency(id = "Updatifier", optional = true)})
+@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true) })
 public class Main {
 
 	private static Game game;
 	private static Logger log;
-	private static PluginContainer plugin;	
+	private static PluginContainer plugin;
 
 	@Listener
-    public void onPreInitializationEvent(GamePreInitializationEvent event) {
+	public void onPreInitializationEvent(GamePreInitializationEvent event) {
 		game = Sponge.getGame();
 		plugin = getGame().getPluginManager().getPlugin(Resource.ID).get();
 		log = getPlugin().getLogger();
 	}
 
 	@Listener
-    public void onInitializationEvent(GameInitializationEvent event) {
+	public void onInitializationEvent(GameInitializationEvent event) {
 		getGame().getEventManager().registerListeners(this, new EventManager());
 	}
-	
+
 	@Listener
 	public void onAboutToStartServerEvent(GameAboutToStartServerEvent event) {
 		new ConfigManager("global").init();

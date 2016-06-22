@@ -20,26 +20,26 @@ public class ConfigManager {
 
 	public ConfigManager(String configName) {
 		String folder = "config" + File.separator + "moblimit";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder, configName + ".conf");
-		
+
 		create();
 		load();
 	}
-	
+
 	public ConfigManager() {
 		String folder = "config" + File.separator + "moblimit";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder, "config.conf");
-		
+
 		create();
 		load();
 	}
-	
+
 	public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
 		return loader;
 	}
@@ -48,33 +48,33 @@ public class ConfigManager {
 		return config;
 	}
 
-	private void create(){
-		if(!file.exists()) {
+	private void create() {
+		if (!file.exists()) {
 			try {
 				Main.getLog().info("Creating new " + file.getName() + " file...");
-				file.createNewFile();		
-			} catch (IOException e) {				
+				file.createNewFile();
+			} catch (IOException e) {
 				Main.getLog().error("Failed to create new config file");
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void init() {
-		if(file.getName().equals("global.conf")) {
-			for(EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
-				if(Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))){
-					if(config.getNode("mobs", entityType.getId()).isVirtual()){
+		if (file.getName().equals("global.conf")) {
+			for (EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
+				if (Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))) {
+					if (config.getNode("mobs", entityType.getId()).isVirtual()) {
 						config.getNode("mobs", entityType.getId(), "amount").setValue(40);
 					}
 				}
 			}
-		}else {
+		} else {
 			ConfigurationNode config = new ConfigManager("global").getConfig();
-			
-			for(EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
-				if(Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))){
-					if(config.getNode("mobs", entityType.getId()).isVirtual()){
+
+			for (EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
+				if (Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))) {
+					if (config.getNode("mobs", entityType.getId()).isVirtual()) {
 						config.getNode("mobs", entityType.getId(), "amount").setValue(config.getNode("mobs", entityType.getId(), "amount").getDouble());
 					}
 				}
@@ -83,8 +83,8 @@ public class ConfigManager {
 
 		save();
 	}
-	
-	private void load(){
+
+	private void load() {
 		loader = HoconConfigurationLoader.builder().setFile(file).build();
 		try {
 			config = loader.load();
@@ -93,8 +93,8 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 	}
-	
-	public void save(){
+
+	public void save() {
 		try {
 			loader.save(config);
 		} catch (IOException e) {
