@@ -3,6 +3,7 @@ package com.gmail.trentech.moblimit;
 import java.io.File;
 import java.io.IOException;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Living;
@@ -19,7 +20,7 @@ public class ConfigManager {
 	private ConfigurationLoader<CommentedConfigurationNode> loader;
 
 	public ConfigManager(String configName) {
-		String folder = "config" + File.separator + "moblimit";
+		String folder = "config" + File.separator + Resource.ID;
 		if (!new File(folder).isDirectory()) {
 			new File(folder).mkdirs();
 		}
@@ -30,7 +31,7 @@ public class ConfigManager {
 	}
 
 	public ConfigManager() {
-		String folder = "config" + File.separator + "moblimit";
+		String folder = "config" + File.separator + Resource.ID;
 		if (!new File(folder).isDirectory()) {
 			new File(folder).mkdirs();
 		}
@@ -62,7 +63,7 @@ public class ConfigManager {
 
 	public void init() {
 		if (file.getName().equals("global.conf")) {
-			for (EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
+			for (EntityType entityType : Sponge.getRegistry().getAllOf(EntityType.class)) {
 				if (Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))) {
 					if (config.getNode("mobs", entityType.getId()).isVirtual()) {
 						config.getNode("mobs", entityType.getId(), "amount").setValue(40);
@@ -72,7 +73,7 @@ public class ConfigManager {
 		} else {
 			ConfigurationNode config = new ConfigManager("global").getConfig();
 
-			for (EntityType entityType : Main.getGame().getRegistry().getAllOf(EntityType.class)) {
+			for (EntityType entityType : Sponge.getRegistry().getAllOf(EntityType.class)) {
 				if (Living.class.isAssignableFrom(entityType.getEntityClass()) && !(entityType.equals(EntityTypes.ARMOR_STAND) || entityType.equals(EntityTypes.HUMAN) || entityType.equals(EntityTypes.PLAYER))) {
 					if (config.getNode("mobs", entityType.getId()).isVirtual()) {
 						config.getNode("mobs", entityType.getId(), "amount").setValue(config.getNode("mobs", entityType.getId(), "amount").getDouble());
