@@ -28,7 +28,7 @@ public class EventManager {
 				return;
 			}
 
-			int amount = new ConfigManager(world.getName()).getConfig().getNode("mobs", entityType.getId(), "amount").getInt();
+			int amount = ConfigManager.get(world.getName()).getConfig().getNode("mobs", entityType.getId(), "amount").getInt();
 
 			Predicate<Entity> filter = new Predicate<Entity>() {
 
@@ -47,8 +47,6 @@ public class EventManager {
 
 	@Listener
 	public void onLoadWorldEvent(LoadWorldEvent event) {
-		String name = event.getTargetWorld().getName();
-
-		new ConfigManager(name).init();
+		ConfigManager.init(event.getTargetWorld().getName());
 	}
 }
