@@ -15,7 +15,6 @@ public class EventManager {
 
 	@Listener
 	public void onSpawnEntityEvent(SpawnEntityEvent event) {
-		World world = event.getTargetWorld();
 
 		for (Entity entity : event.getEntities()) {
 			EntityType entityType = entity.getType();
@@ -28,6 +27,8 @@ public class EventManager {
 				return;
 			}
 
+			World world = entity.getWorld();
+			
 			int amount = ConfigManager.get(world.getName()).getConfig().getNode("mobs", entityType.getId(), "amount").getInt();
 
 			Predicate<Entity> filter = new Predicate<Entity>() {
