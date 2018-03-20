@@ -15,12 +15,10 @@ import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 
+import com.gmail.trentech.pjc.core.ConfigManager;
 import com.google.inject.Inject;
 
-import me.flibio.updatifier.Updatifier;
-
-@Updatifier(repoName = Resource.NAME, repoOwner = Resource.AUTHOR, version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true) })
+@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "pjc", optional = false) })
 public class Main {
 
 	@Inject @ConfigDir(sharedRoot = false)
@@ -51,7 +49,7 @@ public class Main {
 
 	@Listener
 	public void onAboutToStartServerEvent(GameAboutToStartServerEvent event) {
-		ConfigManager.init("global");
+		ConfigManager.init(Main.getPlugin(), "global");
 	}
 
 	public Logger getLog() {
