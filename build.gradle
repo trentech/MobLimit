@@ -41,6 +41,10 @@ dependencies {
     compile 'com.github.TrenTech:ProjectCore:7.x-SNAPSHOT'
 }
 
+signing {
+    sign configurations.archives
+}
+
 jar {
     configurations.shade.copyRecursive().setTransitive(false).each { artifact ->
       from (zipTree(artifact))
